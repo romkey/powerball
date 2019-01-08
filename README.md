@@ -11,15 +11,18 @@ Powerball is based on Furball, test hardware for HomeBus, which is still in earl
 
 The name 'Furball' is an homage to Dave Mills' ["Fuzzball"](https://en.wikipedia.org/wiki/Fuzzball_router), one of the first routers on the nascent Internet.
 
+Powerball logs console out to a syslog server. I recommend the free tier of [Papertrailapp](https://papertrailapp.com/).
+
+Powerball logs voltage and current levels to an MQTT server. You can use something like http://io.adafruit.com (which limits you to 30 samples per minute on the free plan and 60 samples per minute on the paid plan, or you can use the [Powerball Server](https://github.com/romkey/powerball-server), which will run under Heroku's free plan.
+
 ## Configuration
 
+1. Copy `src/config.h-example` to `src/config.h` and edit the new file.
 
 
 ## Current Status
 
-Dustball reboots frequently. It is strongly dependent on a stable, reliable power supply. Without one it may hang frequently.
 
-Dustball works with Adafruit and Sparkfun CCS811 sensors, but not the cheaper CCS811 boards that I bought in bulk from AliExpress. I suspect an intialization problem but haven't had time to debug it.
 
 ## Hardware
 
@@ -30,18 +33,19 @@ Powerball uses an [INA219](https://i2cdevices.org/devices/ina219) I2C current an
 ### Total Cost
 
 If bought through AliExpress, parts cost should run roughly:
-- $6 - ESP32 LOLIN32
-- $2.57 - BME280
-- $1 - TSL2561
-- $9 - CCS811
-- $1 - random resistors, capacitors, tri-color LED
-- $40 - PMS5003
+- $2.15 - Wemos D1 Mini
+- $1.50 - INA219
+- $1 - random resistors, capacitors
 
-Total of roughly $20 in parts before the circuit board.
+Total of roughly $4.65 in parts before the circuit board.
 
 ## Building The Hardware
 
 I'm still working on a schematic, but the hardware is very simple to build.
+
+Powerball and the target board have independent power supplies. Ground is connected together. +5V  for the target is run through the INA219 so that it can measure voltage and current.
+
+Serial TX from the target is run to D4.
 
 ## Software
 
